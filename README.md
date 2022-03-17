@@ -15,7 +15,7 @@ Descrição: uma loja virtual com um bot para Whats App e Telegram.
   - [x] Morgan --dev
   - [x] Nodemon --dev
 - [x] Inicializar servidor com Express
-- [ ] Configurar eventos
+- [x] Configurar eventos
 - [ ] Conectar com Mongodb Cloud
 - [ ] Conectar com Telegram bot
   - [ ] Gerar Key com Botfather
