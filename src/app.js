@@ -13,5 +13,6 @@ const PORT = process.env.PORT || 3000;
 
 const Events = require("./events");
 const Database = require("./configs/mongoose");
+const Services = require("./services");
 
 app.listen(PORT, () => log("Server on"));
