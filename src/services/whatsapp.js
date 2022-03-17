@@ -26,7 +26,12 @@ const disconnect = () => {
   wpp.destroy();
 };
 
+const check_status = async () => {
+  return await wpp.getState();
+};
+
 module.exports = {
   connect,
   disconnect,
+  check_status,
 };

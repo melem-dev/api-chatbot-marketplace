@@ -14,9 +14,9 @@ module.exports = (...options) => {
   for (const clientId in ClientsServices) {
     const ClientSocket = ws.sockets.sockets.get(clientId);
 
-    ClientSocket.on("check_services", () => {
+    ClientSocket.on("check_services", async () => {
       const Status = {
-        "Whats App": true,
+        "Whats App": await Services.whatsapp.check_status(),
         Telegram: Services.telegram.check_status(),
       };
 
