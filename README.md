@@ -3,18 +3,18 @@ Descrição: uma loja virtual com um bot para Whats App e Telegram.
 
 
 ### Lista de tarefas e atualizações
-- [ ] Instalar dependências
-  - [ ] Express
-  - [ ] Mongoose
-  - [ ] Bcrypt
-  - [ ] JsonWebToken
-  - [ ] Cors
-  - [ ] Node-telegram-bot-api
-  - [ ] Whatsapp-web.js
-  - [ ] Dotenv --dev
-  - [ ] Morgan --dev
-  - [ ] Nodemon --dev
-- [ ] Inicializar servidor com Express
+- [x] Instalar dependências
+  - [x] Express
+  - [x] Mongoose
+  - [x] Bcrypt
+  - [x] JsonWebToken
+  - [x] Cors
+  - [x] Node-telegram-bot-api
+  - [x] Whatsapp-web.js
+  - [x] Dotenv --dev
+  - [x] Morgan --dev
+  - [x] Nodemon --dev
+- [x] Inicializar servidor com Express
 - [ ] Configurar eventos
 - [ ] Conectar com Mongodb Cloud
 - [ ] Conectar com Telegram bot
