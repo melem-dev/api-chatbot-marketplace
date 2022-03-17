@@ -11,16 +11,18 @@ Descrição: uma loja virtual com um bot para Whats App e Telegram.
   - [x] Cors
   - [x] Node-telegram-bot-api
   - [x] Whatsapp-web.js
+  - [x] Socket.io
   - [x] Dotenv --dev
   - [x] Morgan --dev
   - [x] Nodemon --dev
 - [x] Inicializar servidor com Express
+- [x] Inicializar servidor com Web Socket
 - [x] Configurar eventos
 - [x] Conectar com Mongodb Cloud
-- [ ] Conectar com Telegram bot
-  - [ ] Gerar Key com Botfather
-  - [ ] Estruturar eventos
-- [ ] Conectar com Whatsapp
+- [x] Conectar com Telegram bot
+  - [x] Gerar Key com Botfather
+  - [x] Estruturar eventos
+- [x] Conectar com Whatsapp
   - [ ] Gerar sessão
   - [ ] Salvar sessão
-  - [ ] Estruturar eventos
+  - [x] Estruturar eventos
