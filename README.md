@@ -15,6 +15,7 @@ Descrição: uma loja virtual com um bot para Whats App e Telegram.
   - [x] Dotenv --dev
   - [x] Morgan --dev
   - [x] Nodemon --dev
+  - [x] Concurrently - dev
 - [x] Inicializar servidor com Express
 - [x] Inicializar servidor com Web Socket
 - [x] Configurar eventos
@@ -26,3 +27,4 @@ Descrição: uma loja virtual com um bot para Whats App e Telegram.
   - [ ] Gerar sessão
   - [ ] Salvar sessão
   - [x] Estruturar eventos
+- [x] Front-end Vite

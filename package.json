@@ -6,8 +6,9 @@
   "author": "Pedro Melém <melem.dev@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "public": "concurrently -r \"npm run dev\" \"cd public && npm run dev\"",
     "start": "node src/app",
-    "dev": "nodemon src/app --ignore ./.wwebjs_auth/"
+    "dev": "nodemon src/app --ignore ./.wwebjs_auth/ --ignore public"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -20,6 +21,7 @@
     "whatsapp-web.js": "^1.16.4"
   },
   "devDependencies": {
+    "concurrently": "^7.0.0",
     "dotenv": "^16.0.0",
     "morgan": "^1.10.0  ",
     "nodemon": "^2.0.15"

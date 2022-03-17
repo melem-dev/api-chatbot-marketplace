@@ -8,12 +8,12 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 const express = require("express");
-const app = express();
-const PORT = process.env.PORT || 3000;
 const http = require("http");
+const app = express();
 const server = http.createServer(app);
+const PORT = process.env.PORT || 3000;
 const ws = require("./transporter");
-ws(server, server, { cors: { origin: "*" } });
+ws(server, { cors: { origin: "*" } });
 
 const Events = require("./events");
 const Database = require("./configs/mongoose");
