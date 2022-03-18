@@ -11,7 +11,7 @@ wpp.on("authenticated", (session) => {
 });
 
 wpp.on("qr", (qr) => {
-  Events.emit("w1_qr", { qr });
+  Events.emit("wpp_qr", { qr });
 });
 
 wpp.on("message_create", (msg) => {

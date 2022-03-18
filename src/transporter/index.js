@@ -1,7 +1,11 @@
 const { Server } = require("socket.io");
 const Events = require("../events");
 const { log } = require("../utils");
-const Services = require("../services");
+const {
+  checkStatus,
+  disconnectService,
+  connectService,
+} = require("../controllers/services.controller");
 
 module.exports = (server, ...options) => {
   const ws = new Server(server, ...options);
@@ -18,27 +22,25 @@ module.exports = (server, ...options) => {
     });
 
     socket.on("check_services", async () => {
-      const clients = ws.sockets.adapter.rooms.get("services");
-
-      if (!clients.has(socket.id)) return socket.emit("permission_denied");
-
-      const Status = {
-        "Whats App": await Services.whatsapp.check_status(),
-        Telegram: Services.telegram.check_status(),
-      };
-
-      return socket.emit("services_status", Status);
+      await checkStatus(socket);
     });
 
     socket.on("disconnect_service", ({ target }) => {
-      if (target.toUpperCase() === "whats app") {
-        Services.whatsapp.disconnect();
-        return socket.emit('')
-      }
-
-      if (target.toUpperCase() === "telegram") {
-        return Services.telegram.disconnect();
-      }
+      log(`Serviços - Apagando sessão: ${target}`);
+      disconnectService(socket, { target });
     });
+
+    socket.on("connect_service", ({ target }) => {
+      log(`Serviços - Gerando sessão: ${target}`);
+      connectService({ target });
+    });
+  });
+
+  Events.on("wpp_qr", ({ qr }) => {
+    ws.to("services").emit("service_request", { type: "whats app", data: qr });
+  });
+
+  Events.on("telegram_token", () => {
+    ws.to("services").emit("service_request", { type: "telegram" });
   });
 };
