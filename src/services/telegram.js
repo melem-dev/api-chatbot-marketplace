@@ -56,7 +56,7 @@ const disconnect = () => {
 };
 
 const check_status = () => {
-  bot.isPolling();
+  return bot.isPolling();
 };
 
 module.exports = { connect, disconnect, check_status };

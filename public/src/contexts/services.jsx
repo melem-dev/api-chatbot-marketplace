@@ -9,24 +9,33 @@ export const ServiceProvider = ({ children }) => {
   const initialStates = {
     Telegram: "loading",
     "Whats App": "loading",
-    Websocket: "disconnected",
   };
 
   const [Services, setServices] = useState(initialStates);
-
-  const UpdateService = (service, status) => {
-    setServices((prevState) => {
-      const newState = { ...prevState };
-      newState[service] = status;
-      return newState;
-    });
-  };
+  const [room, setRoom] = useState(false);
 
   useEffect(() => {
-    ws.on("welcome", (data) => UpdateService("Websocket", "connected"));
-  }, []);
+    ws.emit("join_room", { room: "services" });
 
-  const globalValues = { ws, Services };
+    ws.on("accept_in_room", ({ room }) => {
+      setRoom(room);
+
+      ws.emit("check_services");
+    });
+
+    ws.on("services_status", (data) => {
+      for (let service in data) {
+        setServices((prevState) => {
+          const newState = { ...prevState };
+          newState[service] = data[service] ? "connected" : "disconnected";
+          console.log(service, data[service]);
+          return newState;
+        });
+      }
+    });
+  }, [ws]);
+
+  const globalValues = { ws, Services, room };
 
   return (
     <ServiceContext.Provider value={globalValues}>

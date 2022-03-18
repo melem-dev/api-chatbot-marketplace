@@ -6,7 +6,7 @@ export const Title = styled.h1`
 
 export const Text = styled.p`
   color: var(--primary);
+  margin: 0 20px;
 `;
 
 export const Bold = styled.strong``;
-

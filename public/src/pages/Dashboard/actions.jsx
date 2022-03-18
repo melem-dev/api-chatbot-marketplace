@@ -6,7 +6,7 @@ export default function () {
   return (
     <Container>
       <Button>
-        <Text>WS Connect</Text>
+        <Text></Text>
       </Button>
     </Container>
   );

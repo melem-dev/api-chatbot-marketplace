@@ -28,3 +28,4 @@ Descrição: uma loja virtual com um bot para Whats App e Telegram.
   - [ ] Salvar sessão
   - [x] Estruturar eventos
 - [x] Front-end Vite
+- [ ] Gerar Sessão via evento front-end

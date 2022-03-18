@@ -1,28 +1,59 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { List, Item } from "../../components/List";
 import { Text, Bold } from "../../components/Typography";
-import { ServiceContext } from "../../contexts";
+import { ServiceContext, TransporterContext } from "../../contexts";
+import { Button } from "../../components/Button";
+import { Flex } from "../../components/Layout";
 
 export default function () {
-  const { Services } = useContext(ServiceContext);
+  const { connection } = useContext(TransporterContext);
+  const { Services, room } = useContext(ServiceContext);
+
+  const ServicesList = () => {};
 
   return (
     <>
       <List>
         <Item>
-          <Text>
-            Websocket: <Bold>{Services.Websocket}</Bold>
-          </Text>
+          <Flex>
+            <Text>
+              Websocket:
+              <Bold>{connection ? "connected" : "disconnected"}</Bold>
+            </Text>
+            <Text />
+          </Flex>
         </Item>
         <Item>
-          <Text>
-            Whats App: <Bold>{Services["Whats App"]}</Bold>
-          </Text>
+          <Flex>
+            <Text>
+              Room: <Bold>{room}</Bold>
+            </Text>
+            <Text />
+          </Flex>
         </Item>
         <Item>
-          <Text>
-            Telegram: <Bold>{Services.Telegram}</Bold>
-          </Text>
+          <Flex>
+            <Text>
+              Whats App: <Bold>{Services["Whats App"]}</Bold>
+            </Text>
+            {Services["Whats App"] === "connected" ? (
+              <Button>Sair</Button>
+            ) : (
+              <Button>Conectar</Button>
+            )}
+          </Flex>
+        </Item>
+        <Item>
+          <Flex>
+            <Text>
+              Telegram: <Bold>{Services.Telegram}</Bold>
+            </Text>
+            {Services.Telegram === "connected" ? (
+              <Button>Sair</Button>
+            ) : (
+              <Button>Conectar</Button>
+            )}
+          </Flex>
         </Item>
       </List>
     </>

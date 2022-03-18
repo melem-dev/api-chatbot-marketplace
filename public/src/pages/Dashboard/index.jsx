@@ -3,17 +3,9 @@ import { Card } from "../../components/Card";
 import { Title } from "../../components/Typography";
 import ServicesList from "./services";
 import ActionButtons from "./actions";
-import { TransporterContext, ServiceProvider } from "../../contexts";
+import { ServiceProvider } from "../../contexts";
 
 export default function () {
-  const { ws } = useContext(TransporterContext);
-
-  useEffect(() => {
-    ws.on("welcome", (data) => {
-      console.log(data);
-    });
-  }, []);
-
   return (
     <>
       <ServiceProvider>
@@ -21,8 +13,6 @@ export default function () {
           <Title>Interface de conexão</Title>
 
           <ServicesList />
-
-          <ActionButtons />
         </Card>
       </ServiceProvider>
     </>

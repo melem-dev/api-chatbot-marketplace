@@ -27,7 +27,7 @@ const disconnect = () => {
 };
 
 const check_status = async () => {
-  return await wpp.getState();
+  return (await wpp.getState()) || false;
 };
 
 module.exports = {

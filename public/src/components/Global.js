@@ -14,6 +14,7 @@ const Global = createGlobalStyle`
 
   :root {
     --primary: #595959;
+    --white: #fff;
   }
 `;
 
