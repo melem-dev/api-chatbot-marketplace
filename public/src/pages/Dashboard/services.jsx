@@ -6,10 +6,16 @@ import { Button } from "../../components/Button";
 import { Flex } from "../../components/Layout";
 
 export default function () {
-  const { connection } = useContext(TransporterContext);
+  const { ws, connection } = useContext(TransporterContext);
   const { Services, room } = useContext(ServiceContext);
 
-  const ServicesList = () => {};
+  const onDesactive = (target) => {
+    ws.emit("disconnect_service", { target });
+  };
+
+  const onActive = (target) => {
+    ws.emit("connect_service", { target });
+  };
 
   return (
     <>

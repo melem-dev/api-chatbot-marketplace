@@ -1,0 +1,44 @@
+{
+  "profile": {
+    "name": "",
+    "contact": "",
+    "address": {
+      "city": "",
+      "district": "",
+      "number": "",
+      "zipcode": "",
+      "street": ""
+    }
+  },
+  "navigation": {
+    "stage": 0,
+    "selected": {
+      "category": "",
+      "subcategory": "",
+      "item": "",
+      "size": "",
+      "options": [{ "type": "", "option": "" }],
+      "adds": []
+    }
+  },
+  "order": {
+    "total": 0,
+    "items": [
+      {
+        "item": "",
+        "quantity": "",
+        "options": [{ "type": "", "option": "" }],
+        "adds": [],
+        "observation": []
+      }
+    ]
+  },
+  "payment_method": {
+    "credit_card_online": false,
+    "credit_card": false,
+    "debit_card_online": false,
+    "debit_card": false,
+    "pix": false,
+    "cash": false
+  }
+}

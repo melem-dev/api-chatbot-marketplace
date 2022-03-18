@@ -12,6 +12,7 @@ Descrição: uma loja virtual com um bot para Whats App e Telegram.
   - [x] Node-telegram-bot-api
   - [x] Whatsapp-web.js
   - [x] Socket.io
+  - [x] IoRedis
   - [x] Dotenv --dev
   - [x] Morgan --dev
   - [x] Nodemon --dev
@@ -28,4 +29,7 @@ Descrição: uma loja virtual com um bot para Whats App e Telegram.
   - [ ] Salvar sessão
   - [x] Estruturar eventos
 - [x] Front-end Vite
-- [ ] Gerar Sessão via evento front-end
+- [x] Gerar Sessão via evento front-end
+- [ ] Conectar Redis
+- [ ] Fazer ORM Redis
+- [ ] Inicializar chatbot
