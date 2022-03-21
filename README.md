@@ -82,7 +82,6 @@ description: Conexão com o servidor de websocket estabelecida.
     IN / "check_services"
 
 description: Pedir ao servidor, status dos serviços
-
 #
     OUT / "services_status"
 
@@ -96,9 +95,46 @@ body:
   - Whats App
     - type: number
     - enum: [100, 102, 200, 403]
-
 # 
 
     OUT / "services_change_status"
 
 description: O status de algum serviço mudou.
+#
+
+    OUT / "service_request"
+description: Em caso de alguns serviços que exigem alguma forma de autenticaao do usuário, ele será enviado no campo "data". Por exemplo, o Whats App.
+
+body:
+  - type:
+    - type: String
+    - enum: ['whats app']
+  - data:
+    - type: String
+    - enum: ['qr code']
+#
+    IN / "connect_service"
+  
+body:
+  - target
+    - type: String
+    - description: Serviço a ser inicializado
+
+#
+    IN / "disconnect_service"
+
+body:
+  - target:
+    - type: String
+    - description: Serviço a ser desconectado
+
+
+#
+
+Esse projeto foi escrito para eu poder compartilhar meus conhecimentos e expandir meus limites de programação. 
+
+Documentação feita por **Pedro Melém**.
+Em alguma dúvida, sugestão ou correção. você pode me mandar um [email].<melem.dev@gmail.com>
+
+
+*Life is JOKE :)*
