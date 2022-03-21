@@ -63,4 +63,16 @@ body:
     - type: String
     - description: Autenticação
     - required: true
+
+    OUT / accept_in_room
+
+body:
+  - 200
+    - room:
+      - type: String
+      - description: Sala que você acessou.
+  - 403
+    - message: 
+      - type: String
+      - description: Suas credenciais foram inválidas.
   
