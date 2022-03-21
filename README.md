@@ -134,7 +134,7 @@ body:
 Esse projeto foi escrito para eu poder compartilhar meus conhecimentos e expandir meus limites de programação. 
 
 Documentação feita por **Pedro Melém**.
-Em alguma dúvida, sugestão ou correção. você pode me mandar um [email].<melem.dev@gmail.com>
+Em alguma dúvida, sugestão ou correção. você pode me mandar um <email>. [melem.dev@gmail.com]
 
 
-*Life is JOKE :)*
+*Life is  a JOKE :)*
