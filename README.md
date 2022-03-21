@@ -24,12 +24,29 @@ Descrição: uma loja virtual com um bot para Whats App e Telegram.
 - [ ] Conectar com Telegram bot
   - [ ] Gerar Key com Botfather
   - [ ] Estruturar eventos
-- [ ] Conectar com Whatsapp
-  - [ ] Gerar sessão
-  - [ ] Salvar sessão
-  - [ ] Estruturar eventos
+- [x] Conectar com Whatsapp
+  - [x] Gerar sessão
+  - [x] Salvar sessão
+  - [x] Estruturar eventos
 - [x] Front-end Vite
 - [x] Gerar Sessão via evento front-end
 - [x] Conectar Redis
 - [x] Fazer ORM Redis
-- [ ] Inicializar chatbot
+- [x] Inicializar chatbot
+
+# 
+
+A conexão com o Telegram foi descontinuada, devido ao possivel bloqueio da rede social. Caso haja perspectiva de normalização, a integração será feita.
+
+# Lista de eventos
+
+A conexão com o front-end é baseada na biblioteca Socket.io. Com isso, decidi colocar a lista dos eventos que podem ser transmitidos.
+
+Tags:
+
+  ***IN*** - Client to Server
+
+  ***OUT*** - Server to Client
+
+Eventos: 
+
