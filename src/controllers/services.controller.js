@@ -1,45 +1,62 @@
+const { whatsapp } = require("../services");
 const Events = require("../events");
-const Services = require("../services");
+const { log } = require("../utils");
+const Redis = require("../configs/redis");
 
-/* Funções */
+const Services = {
+  "whats app": new whatsapp(),
+};
 
-const checkStatus = async (socket) => {
-  const clients = ws.sockets.adapter.rooms.get("services");
+async function startServicesOnInitSystem() {
+  for (const service in Services) {
+    if (service === "whats app") {
+      Services[service].start();
+    }
+  }
+}
 
-  if (!clients.has(socket.id)) return socket.emit("permission_denied");
+startServicesOnInitSystem();
 
-  const Status = {
-    "Whats App": await Services.whatsapp.check_status(),
-    Telegram: Services.telegram.check_status(),
+async function getServicesStatus() {
+  const state = {
+    "whats app": await Redis.getAsync("wpp_status"),
   };
+  return state;
+}
 
-  return socket.emit("services_status", Status);
-};
+async function openServiceConn() {
+  try {
+    const status = await Redis.getAsync("wpp_status");
 
-const disconnectService = (socket, { target }) => {
-  if (target.toUpperCase() === "whats app") {
-    Services.whatsapp.disconnect();
-    return socket.emit("services_change_status");
+    if (status === "403") {
+      log("[Controller] call start function");
+      Services["whats app"].start();
+      return true;
+    }
+
+    log("[Controller] not called");
+  } catch (error) {
+    log(error.message);
+    return false;
   }
+}
 
-  if (target.toUpperCase() === "telegram") {
-    Services.telegram.disconnect();
-    return socket.emit("services_change_status");
-  }
-};
+async function closeServiceConn(data) {
+  try {
+    const status = await Redis.getAsync("wpp_status");
 
-const connectService = ({ target }) => {
-  if (target.toLowerCase() === "whats app") {
-    Services.whatsapp.connect();
+    if (status !== 403) {
+      await Services["whats app"].stop();
+      return true;
+    }
+  } catch (error) {
+    log(error.message);
+    return false;
   }
-
-  if (target.toLowerCase() === "telegram") {
-    Services.telegram.connect();
-  }
-};
+}
 
 module.exports = {
-  checkStatus,
-  disconnectService,
-  connectService,
+  getServicesStatus,
+  openServiceConn,
+  closeServiceConn,
 };

@@ -8,7 +8,8 @@
   "scripts": {
     "public": "concurrently -r \"npm run dev\" \"cd public && npm run dev\"",
     "start": "node src/app",
-    "dev": "nodemon src/app --ignore ./.wwebjs_auth/ --ignore public"
+    "dev": "nodemon src/app --ignore ./tmp --ignore public",
+    "test:wpp": "node src/services/whatsapp"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -18,6 +19,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.7",
     "node-telegram-bot-api": "^0.56.0",
+    "react-qr-code": "^2.0.3",
     "socket.io": "^4.4.1",
     "whatsapp-web.js": "^1.16.4"
   },

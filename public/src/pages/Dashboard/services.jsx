@@ -6,15 +6,32 @@ import { Button } from "../../components/Button";
 import { Flex } from "../../components/Layout";
 
 export default function () {
-  const { ws, connection } = useContext(TransporterContext);
-  const { Services, room } = useContext(ServiceContext);
-
-  const onDesactive = (target) => {
-    ws.emit("disconnect_service", { target });
+  const serviceStatus = {
+    100: "Iniciando Client",
+    102: "Autenticando",
+    200: "Conectado",
+    403: "Desconectado",
   };
 
-  const onActive = (target) => {
+  const { ws, connection } = useContext(TransporterContext);
+  const { Services, room, handleModal } = useContext(ServiceContext);
+
+  const ServicesList = Object.keys(Services);
+
+  const setDisconnect = (target) => {
+    return ws.emit("disconnect_service", { target });
+  };
+
+  const setConnect = (target) => {
     ws.emit("connect_service", { target });
+    return handleModal();
+  };
+
+  const HandleButton = ({ target: el }) => {
+    console.log(Services[el]);
+    const actived = Services[el] === "200";
+    const onClick = () => (actived ? setDisconnect(el) : setConnect(el));
+    return <Button onClick={onClick}>{actived ? "Sair" : "Conectar"}</Button>;
   };
 
   return (
@@ -37,30 +54,16 @@ export default function () {
             <Text />
           </Flex>
         </Item>
-        <Item>
-          <Flex>
-            <Text>
-              Whats App: <Bold>{Services["Whats App"]}</Bold>
-            </Text>
-            {Services["Whats App"] === "connected" ? (
-              <Button>Sair</Button>
-            ) : (
-              <Button>Conectar</Button>
-            )}
-          </Flex>
-        </Item>
-        <Item>
-          <Flex>
-            <Text>
-              Telegram: <Bold>{Services.Telegram}</Bold>
-            </Text>
-            {Services.Telegram === "connected" ? (
-              <Button>Sair</Button>
-            ) : (
-              <Button>Conectar</Button>
-            )}
-          </Flex>
-        </Item>
+        {ServicesList.map((el, i) => (
+          <Item key={i}>
+            <Flex>
+              <Text>
+                {el}: <Bold>{serviceStatus[Services[el]]}</Bold>
+              </Text>
+              <HandleButton target={el} />
+            </Flex>
+          </Item>
+        ))}
       </List>
     </>
   );

@@ -1,9 +1,12 @@
 const RedisServer = require("ioredis");
+const { log } = require("../utils");
 
 const redis = new RedisServer();
 
 const getAsync = async (key) => {
   const data = await redis.get(key);
+
+  if (!data) return false;
 
   if (data.startsWith("[") && data.endsWith("]")) {
     return JSON.parse(data);
@@ -24,7 +27,7 @@ const getAsync = async (key) => {
   return data;
 };
 
-const setAsync = async (key, value) => {
+const setAsync = async (key, value, ...options) => {
   const type = typeof value;
   let data;
 
@@ -34,12 +37,23 @@ const setAsync = async (key, value) => {
     data = value;
   }
 
-  const result = await redis.set(key, data);
+  const result = await redis.set(key, data, ...options);
 
   return result === "OK" ? true : undefined;
 };
 
+const delAsync = async (key) => {
+  try {
+    await redis.del(key);
+    return true;
+  } catch (error) {
+    log(error.message);
+    return false;
+  }
+};
+
 module.exports = {
   getAsync,
+  delAsync,
   setAsync,
 };

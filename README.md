@@ -21,15 +21,15 @@ Descrição: uma loja virtual com um bot para Whats App e Telegram.
 - [x] Inicializar servidor com Web Socket
 - [x] Configurar eventos
 - [x] Conectar com Mongodb Cloud
-- [x] Conectar com Telegram bot
-  - [x] Gerar Key com Botfather
-  - [x] Estruturar eventos
-- [x] Conectar com Whatsapp
+- [ ] Conectar com Telegram bot
+  - [ ] Gerar Key com Botfather
+  - [ ] Estruturar eventos
+- [ ] Conectar com Whatsapp
   - [ ] Gerar sessão
   - [ ] Salvar sessão
-  - [x] Estruturar eventos
+  - [ ] Estruturar eventos
 - [x] Front-end Vite
 - [x] Gerar Sessão via evento front-end
-- [ ] Conectar Redis
-- [ ] Fazer ORM Redis
+- [x] Conectar Redis
+- [x] Fazer ORM Redis
 - [ ] Inicializar chatbot

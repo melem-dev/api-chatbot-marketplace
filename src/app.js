@@ -1,22 +1,24 @@
 const { log } = require("./utils");
 
 if (process.env.NODE_ENV !== "production") {
-  log("ENV: Dev");
+  log("[System] Ambient: Dev");
   require("dotenv").config();
 } else {
-  log("ENV: Production");
+  log("[System] Ambient: Production");
 }
 
 const express = require("express");
 const http = require("http");
 const app = express();
+
 const server = http.createServer(app);
 const PORT = process.env.PORT || 3000;
-const ws = require("./transporter");
-ws(server, { cors: { origin: "*" } });
 
 const Events = require("./events");
-const Database = require("./configs/mongoose");
-const Services = require("./services");
+const DB_MONGO = require("./configs/mongoose");
+const DB_REDIS = require("./configs/redis");
 
-server.listen(PORT, () => log("Server on"));
+const ws = require("./transporter");
+ws(server, { cors: "*" });
+
+server.listen(PORT, () => log("[Server] initialized"));

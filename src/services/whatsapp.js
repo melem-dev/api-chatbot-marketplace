@@ -1,37 +1,85 @@
-const { Client, LegacySessionAuth } = require("whatsapp-web.js");
-const Events = require("../events");
+const { Client, LocalAuth } = require("whatsapp-web.js");
+const Ev = require("../events");
+const path = require("path");
+const redis = require("../configs/redis");
+const { log } = require("../utils");
+const dataPath = path.resolve(path.dirname(""), "tmp", "wwebjs");
 
-const wpp = new Client({
-  authStrategy: new LegacySessionAuth(),
-  session: false,
-});
+const MAX_TIME_CONNECT_IN_SECONDS = 30;
+const MAX_TRY_CONNECT_QR = 5;
 
-wpp.on("authenticated", (session) => {
-  console.log(session);
-});
+function WhatsApp() {
+  let attempt = 0;
 
-wpp.on("qr", (qr) => {
-  Events.emit("wpp_qr", { qr });
-});
+  const wpp = new Client({
+    authStrategy: new LocalAuth({ dataPath }),
+    puppeteer: { headless: true },
+  });
 
-wpp.on("message_create", (msg) => {
-  console.log(msg);
-});
+  wpp.start = async () => {
+    log("[Service] initializing session");
+    await redis.delAsync("wpp_last_qr");
+    await redis.setAsync("wpp_status", 100);
+    Ev.emit("wpp_status", 100);
+    wpp.initialize();
+  };
 
-const connect = () => {
-  wpp.initialize();
-};
+  wpp.stop = async () => {
+    log("[Service] deleting session");
+    await redis.setAsync("wpp_status", 403);
+    Ev.emit("wpp_status", 403);
+    await redis.delAsync("wpp_last_qr");
+    await wpp.logout();
+    return;
+  };
 
-const disconnect = () => {
-  wpp.destroy();
-};
+  const timeoutToInitialize = setTimeout(() => {
+    log("[Service] max time to connection, retrying.");
+    wpp.destroy().finally(() => {
+      wpp.start();
+    });
+  }, MAX_TIME_CONNECT_IN_SECONDS * 1000);
 
-const check_status = async () => {
-  return (await wpp.getState()) || false;
-};
+  wpp.on("authenticated", async () => {
+    clearTimeout(timeoutToInitialize);
+    log("[Service] authenticated");
+    await redis.setAsync("wpp_status", 200);
+    await redis.delAsync("wpp_last_qr");
+    Ev.emit("wpp_status", 200);
+    return;
+  });
 
-module.exports = {
-  connect,
-  disconnect,
-  check_status,
-};
+  wpp.on("qr", async (qr) => {
+    clearTimeout(timeoutToInitialize);
+
+    attempt += 1;
+
+    if (attempt === MAX_TRY_CONNECT_QR) {
+      attempt = 0;
+      log("[Service] max attemps to connection, closing session.");
+      await redis.setAsync("wpp_status", 403);
+      await redis.delAsync("wpp_last_qr");
+      Ev.emit("wpp_status", 403);
+      return await wpp.destroy();
+    }
+
+    log("[Service] session generated in service, attempt: " + attempt);
+    await redis.setAsync("wpp_last_qr", qr, "ex", 60);
+    await redis.setAsync("wpp_status", 102);
+    Ev.emit("wpp_status", 102);
+    Ev.emit("w1_qr", { qr });
+    return;
+  });
+
+  wpp.on("auth_failure", () => {
+    log("[Service] auth failure");
+  });
+
+  wpp.on("change_state", (state) => {
+    log("[Service] change state to: " + state);
+  });
+
+  return wpp;
+}
+
+module.exports = WhatsApp;

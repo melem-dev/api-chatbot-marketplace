@@ -6,11 +6,9 @@ export const ServiceContext = createContext();
 export const ServiceProvider = ({ children }) => {
   const { ws } = useContext(TransporterContext);
 
-  const initialStates = {
-    Telegram: "loading",
-    "Whats App": "loading",
-  };
+  const initialStates = {};
 
+  const [modal, setModal] = useState(false);
   const [Services, setServices] = useState(initialStates);
   const [room, setRoom] = useState(false);
 
@@ -27,15 +25,22 @@ export const ServiceProvider = ({ children }) => {
       for (let service in data) {
         setServices((prevState) => {
           const newState = { ...prevState };
-          newState[service] = data[service] ? "connected" : "disconnected";
-          console.log(service, data[service]);
+          newState[service] = data[service];
           return newState;
         });
       }
     });
+
+    ws.on("services_change_status", () => {
+      ws.emit("check_services");
+    });
   }, [ws]);
 
-  const globalValues = { ws, Services, room };
+  const handleModal = () => {
+    setModal((prevState) => !prevState);
+  };
+
+  const globalValues = { ws, Services, room, modal, handleModal };
 
   return (
     <ServiceContext.Provider value={globalValues}>

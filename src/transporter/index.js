@@ -1,46 +1,42 @@
 const { Server } = require("socket.io");
-const Events = require("../events");
 const { log } = require("../utils");
-const {
-  checkStatus,
-  disconnectService,
-  connectService,
-} = require("../controllers/services.controller");
+const RoomService = require("./rooms/service");
+const Events = require("../events");
+const _Services = require("../controllers/services.controller");
 
-module.exports = (server, ...options) => {
-  const ws = new Server(server, ...options);
+module.exports = (server, options) => {
+  const io = new Server(server, options);
 
-  ws.on("connection", (socket) => {
-    socket.emit("welcome", { status: "Olá!" });
+  io.on("connection", (socket) => {
+    socket.emit("welcome");
 
-    socket.on("join_room", ({ room, token }) => {
-      if (room.toLowerCase() == "services") {
-        // Validação de token
-        socket.join(room);
-        socket.emit("accept_in_room", { room });
+    socket.on("join_room", ({ room, auth }) => {
+      socket.join(room);
+      socket.emit("accept_in_room", { room });
+
+      if (room === "services") {
+        log("[Room Services] User joined");
+        RoomService({ io, socket });
       }
     });
-
-    socket.on("check_services", async () => {
-      await checkStatus(socket);
-    });
-
-    socket.on("disconnect_service", ({ target }) => {
-      log(`Serviços - Apagando sessão: ${target}`);
-      disconnectService(socket, { target });
-    });
-
-    socket.on("connect_service", ({ target }) => {
-      log(`Serviços - Gerando sessão: ${target}`);
-      connectService({ target });
-    });
   });
 
-  Events.on("wpp_qr", ({ qr }) => {
-    ws.to("services").emit("service_request", { type: "whats app", data: qr });
+  Events.on("w1_qr", async ({ qr }) => {
+    Events.emit("services_change_status");
+    log("[Transporter] QR Code send");
+    const response = { type: "whats app", data: qr };
+    return io.to("services").emit("service_request", response);
   });
 
-  Events.on("telegram_token", () => {
-    ws.to("services").emit("service_request", { type: "telegram" });
+  Events.on("w1_ready", async () => {
+    const result = await _Services.getServicesStatus();
+    log("[Transpoter] States send");
+    return io.to("services").emit("services_status", result);
+  });
+
+  Events.on("wpp_status", async () => {
+    const result = await _Services.getServicesStatus();
+    log("[Transpoter] States send");
+    return io.to("services").emit("services_status", result);
   });
 };

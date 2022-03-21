@@ -1,8 +1,8 @@
-import { useContext, useEffect } from "react";
 import { Card } from "../../components/Card";
 import { Title } from "../../components/Typography";
 import ServicesList from "./services";
-import ActionButtons from "./actions";
+import InterfaceConn from "./conn";
+
 import { ServiceProvider } from "../../contexts";
 
 export default function () {
@@ -14,6 +14,8 @@ export default function () {
 
           <ServicesList />
         </Card>
+
+        <InterfaceConn />
       </ServiceProvider>
     </>
   );
