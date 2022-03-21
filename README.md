@@ -53,14 +53,14 @@ Eventos:
 
     IN / "join_room"
 
-    body: 
-      room:
-        type: String
-        description: Sala que você pretende acessar os eventos
-        enum: ['Services']
-        required: true
-      auth:
-        type: String
-        description: Autenticação
-        required: true
+body: 
+  - room:
+    - type: String
+    - description: Sala que você pretende acessar os eventos
+    - enum: ['Services']
+    - required: true
+  - auth:
+    - type: String
+    - description: Autenticação
+    - required: true
   
