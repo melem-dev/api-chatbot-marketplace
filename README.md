@@ -48,8 +48,8 @@ Tags:
 
   ***OUT*** - Server to Client
 
-#
-Eventos: 
+# Eventos
+
     IN / "join_room"
 
 body: 
@@ -63,7 +63,7 @@ body:
     - description: Autenticação
     - required: true
 #
-    OUT / accept_in_room
+    OUT / "accept_in_room"
 
 body:
   - 200
@@ -74,4 +74,31 @@ body:
     - message: 
       - type: String
       - description: Suas credenciais foram inválidas.
-  
+#
+    OUT / "welcome"
+
+description: Conexão com o servidor de websocket estabelecida.
+#
+    IN / "check_services"
+
+description: Pedir ao servidor, status dos serviços
+
+#
+    OUT / "services_status"
+
+description: 
+  - 100 - Inicializando
+  - 102 - Autenticando
+  - 200 - Conectado
+  - 403 - Desconectado
+
+body:
+  - Whats App
+    - type: number
+    - enum: [100, 102, 200, 403]
+
+# 
+
+    OUT / "services_change_status"
+
+description: O status de algum serviço mudou.
