@@ -48,9 +48,8 @@ Tags:
 
   ***OUT*** - Server to Client
 
+#
 Eventos: 
-
-
     IN / "join_room"
 
 body: 
@@ -63,7 +62,7 @@ body:
     - type: String
     - description: Autenticação
     - required: true
-
+#
     OUT / accept_in_room
 
 body:
