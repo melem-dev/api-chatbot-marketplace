@@ -1,3 +1,4 @@
 const log = require("./logger");
+const slug = require("./slugs");
 
-module.exports = { log };
+module.exports = { log, slug };
