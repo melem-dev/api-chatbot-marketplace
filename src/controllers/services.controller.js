@@ -15,7 +15,7 @@ async function startServicesOnInitSystem() {
   }
 }
 
-startServicesOnInitSystem();
+// startServicesOnInitSystem();
 
 async function getServicesStatus() {
   const state = {

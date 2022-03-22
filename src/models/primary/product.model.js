@@ -15,15 +15,15 @@ const schema = new Schema(
 );
 
 schema.pre("save", function (next) {
-  this.slug = slug(title);
-  this.price = this.price * MC_PRICE;
+  if (!this.isModified("slug")) {
+    this.slug = slug(this.title);
+  }
 
   return next();
 });
 
-schema.pre("find", function (next) {
-  this.price = this.price / MC_PRICE;
-
+schema.pre("findOneAndUpdate", function (next) {
+  this._update.slug = slug(this._update.title);
   return next();
 });
 

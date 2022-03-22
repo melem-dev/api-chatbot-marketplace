@@ -33,12 +33,12 @@ function WhatsApp() {
     return;
   };
 
-  const timeoutToInitialize = setTimeout(() => {
-    log("[Service] max time to connection, retrying.");
-    wpp.destroy().finally(() => {
-      wpp.start();
-    });
-  }, MAX_TIME_CONNECT_IN_SECONDS * 1000);
+  // const timeoutToInitialize = setTimeout(() => {
+  //   log("[Service] max time to connection, retrying.");
+  //   wpp.destroy().finally(() => {
+  //     wpp.start();
+  //   });
+  // }, MAX_TIME_CONNECT_IN_SECONDS * 1000);
 
   wpp.on("authenticated", async () => {
     clearTimeout(timeoutToInitialize);

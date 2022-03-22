@@ -10,7 +10,7 @@ const schema = new Schema(
 );
 
 schema.pre("save", function (next) {
-  this.slug = slug(title);
+  this.slug = slug(this.title);
 
   return next();
 });
